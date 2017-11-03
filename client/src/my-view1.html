@@ -6,15 +6,18 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ <google-map-marker latitude="{{latitude}}" longitude="{{longitude}}">
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/google-map/google-map.html">
 <link rel="import" href="../bower_components/google-map/google-map-marker.html">
 <link rel="import" href="../bower_components/google-map/google-map-point.html">
+<link rel="import" href="../bower_components/google-map/google-map-search.html">
 <link rel="import" href="../bower_components/google-map/google-map-poly.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="shared-styles.html">
-<link rel="import" href="miMapa.html">
 
 <dom-module id="my-view1">
   <template>
@@ -24,26 +27,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
-      
-       google-map {
-         height : 600px;
 
+      google-map {
+        height: 600px;
       }
+
     </style>
 
-    <google-map latitude="37.77493" longitude="-122.41942" api-key="AIzaSyA27HjYihRX4mTIaYmO2JF98amfNMIk8L0">
-      <google-map-marker id="M1" latitude="37.77493" longitude="-122.41942" title="ATM!">
-      </google-map-marker>            
+    <template is="dom-repeat" items="{{cajeros}}" as="marker">
+      <div class="card">
+        </p> {{marker.Nombre}} + {{marker.X}} + {{marker.Y}}
+      </div>
+    </template>
+    <google-map latitude="-34.6018222" longitude="-58.4916349" api-key="AIzaSyA27HjYihRX4mTIaYmO2JF98amfNMIk8L0">
+        <template is="dom-repeat" items="{{cajeros}}" as="marker">
+          <google-map-marker latitude={{marker.X}} longitude={{marker.Y}} icon={{icon}}>
+        </template>
+
+        <google-map-marker latitude="-34.6018222" longitude="-58.4916349" icon={{iconP}}>     
     </google-map>
 
 
-    <div class="card">
-      <div class="circle">1</div>
-      <h1>View One</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per
-        in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-    </div>
+    <iron-ajax id="Ajax" auto url="http://localhost:3000/api/cajeros" handle-as="json" on-response="handleResponse" debounce-duration="300"></iron-ajax>
+
   </template>
 
   <script>
@@ -51,11 +57,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() {
         return 'my-view1';
       }
-      ready(){
-        super.ready();
-        this.$.M1.icon = "../images/atm.png"
+      static get properties() {
+        return {
+          key: {
+            type: String,
+            value: "KEY"
+          },
 
+          icon: {
+            type: String,
+            value: "../images/atm.png"
+          },
+          iconP: {
+            type: String,
+            value: "../images/pers.png"
+          }
+        };
       }
+
+      ready() {
+        super.ready();
+      }
+
+      handleResponse(res) {
+        this.cajeros = res.detail.__data.response;
+      }
+
+      listaReady() {
+        console.log(">" + this.results + "<");
+      }
+
     }
 
     window.customElements.define(MyView1.is, MyView1);
