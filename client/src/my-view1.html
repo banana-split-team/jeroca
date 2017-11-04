@@ -49,7 +49,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     <iron-ajax id="Ajax" auto url="http://localhost:3000/api/cajeros" handle-as="json" on-response="handleResponse" debounce-duration="300"></iron-ajax>
-
+    <iron-ajax id="AjaxL" auto url="http://localhost:3000/api/localizacion" handle-as="json" on-response="handleResponseL" debounce-duration="300"></iron-ajax>
+    
   </template>
 
   <script>
@@ -82,6 +83,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       handleResponse(res) {
         this.cajeros = res.detail.__data.response;
       }
+      handleResponseL(res) {
+        this.localizacion = res.detail.__data.response;
+      }
+
 
       listaReady() {
         console.log(">" + this.results + "<");
