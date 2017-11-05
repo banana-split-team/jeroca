@@ -13,6 +13,8 @@ var certificateFile = config.cert;
 
 var visaAPIClient = new VisaAPIClient();
 var strDate = new Date().toISOString();
+// 'longitude': -48.60609132008005,
+// 'latitude': -28.844737680202572,
 var atmInquiryRequest = JSON.stringify({
   'requestData': {
     'culture': 'en-US',
@@ -21,8 +23,8 @@ var atmInquiryRequest = JSON.stringify({
     'location': {
       'address': null,
       'geocodes': {
-        'longitude': -48.60609132008005,
-        'latitude': -28.844737680202572,
+        'longitude': '>long<',
+        'latitude': '>lat<',
       },
       'placeName': null,
     },
@@ -104,9 +106,13 @@ var atmInquiryRequest = JSON.stringify({
 });
 
 module.exports = function(Cajero) {
-  Cajero.listado = function(cb) {
+  Cajero.listado = function(lat, long, cb) {
     var baseUri = 'globalatmlocator/';
     var resourcePath = 'v1/localatms/atmsinquiry';
+    atmInquiryRequest = atmInquiryRequest.replace(/>long</g, long);
+    atmInquiryRequest = atmInquiryRequest.replace(/>lat</g, lat);
+    console.log('long: ' + long + ';' + lat);
+    console.log(atmInquiryRequest);
     visaAPIClient.doMutualAuthRequest(baseUri + resourcePath, atmInquiryRequest, 'POST', {}, cb);
   };
 
@@ -115,7 +121,9 @@ module.exports = function(Cajero) {
       http: {
         path: '/listado',
         verb: 'get',
+
       },
+      accepts: [{arg: 'lat', type: 'number'}, {arg: 'long', type: 'number'}],
       returns: {
         arg: 'listado',
         type: 'string',

@@ -66,7 +66,7 @@ VisaAPIClient.prototype.doMutualAuthRequest = function(path, requestBody, method
     if (!error) {
       logResponseBody(response, body);
       var loadPath = JSON.parse(response.body).responseData;
-
+//Formateo para devolver el JSON que necesito.
       var o = {};
       var key = 'ATM';
       o[key] = [];
