@@ -34,22 +34,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <template is="dom-repeat" items="{{cajeros}}" as="marker">
+    <template is="dom-repeat" items="{{cajeros.listado.ATM}}" as="marker">
       <div class="card">
-        </p> {{marker.Nombre}} + {{marker.X}} + {{marker.Y}}
+        </p> {{marker.ATM.Nombre}} + {{marker.ATM.Latitude}} + {{marker.ATM.Longitude}}
+     
+        
       </div>
     </template>
-    <google-map latitude="-34.6018222" longitude="-58.4916349" api-key="AIzaSyA27HjYihRX4mTIaYmO2JF98amfNMIk8L0">
-        <template is="dom-repeat" items="{{cajeros}}" as="marker">
-          <google-map-marker latitude={{marker.X}} longitude={{marker.Y}} icon={{icon}}>
+
+    <google-map latitude="40.4164794" longitude="-3.7050995" api-key="AIzaSyA27HjYihRX4mTIaYmO2JF98amfNMIk8L0">
+        <template is="dom-repeat" items="{{cajeros.listado.ATM}}" as="marker">
+          <google-map-marker latitude={{marker.ATM.Latitude}} longitude={{marker.ATM.Longitude}} icon={{icon}}>
         </template>
 
-        <google-map-marker latitude="-34.6018222" longitude="-58.4916349" icon={{iconP}}>     
+        <google-map-marker latitude="40.4164794" longitude="-3.7050995" icon={{iconP}}>     
     </google-map>
 
 
-    <iron-ajax id="Ajax" auto url="http://localhost:3000/api/cajeros" handle-as="json" on-response="handleResponse" debounce-duration="300"></iron-ajax>
-    <iron-ajax id="AjaxL" auto url="http://localhost:3000/api/localizacion" handle-as="json" on-response="handleResponseL" debounce-duration="300"></iron-ajax>
+    <iron-ajax id="Ajax" url="http://localhost:3000/api/cajeros/listado" handle-as="json" on-response="handleResponse" debounce-duration="300"></iron-ajax>
+    <iron-ajax id="AjaxL" url="http://localhost:3000/api/ubicaciones/localizacion" handle-as="json" on-response="handleResponseL" debounce-duration="300"></iron-ajax>
     
   </template>
 
@@ -64,6 +67,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String,
             value: "KEY"
           },
+          cajeros: {
+            type: String,
+            value: "KEY"
+          },
+
 
           icon: {
             type: String,
@@ -78,10 +86,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       ready() {
         super.ready();
+        //var thisAjax = this.$.Ajax;
+        this.$.Ajax.params = { lat: 40.4164794, long: -3.7050995 };
+       // console.log(JSON.stringify (this.thisAjax));
+        this.$.Ajax.generateRequest();
+
       }
 
       handleResponse(res) {
+
         this.cajeros = res.detail.__data.response;
+        console.log(this.cajeros);
+        console.log(JSON.stringify (this.cajeros));
       }
       handleResponseL(res) {
         this.localizacion = res.detail.__data.response;
