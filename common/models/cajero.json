@@ -1,0 +1,24 @@
+{
+  "name": "cajero",
+  "plural": "cajeros",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "X": {
+      "type": "number"
+    },
+    "Y": {
+      "type": "number"
+    },
+    "Nombre": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
