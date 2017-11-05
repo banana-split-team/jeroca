@@ -64,23 +64,19 @@ VisaAPIClient.prototype.doMutualAuthRequest = function(path, requestBody, method
     timeout: 30000,
   }, function(error, response, body) {
     if (!error) {
-      logResponseBody(response, body);
+    //  logResponseBody(response, body);
       var loadPath = JSON.parse(response.body).responseData;
-//Formateo para devolver el JSON que necesito.
+// Formateo para devolver el JSON que necesito.
       var o = {};
       var key = 'ATM';
       o[key] = [];
 
-      loadPath[0].foundATMLocations.forEach(function(item) { 
-        var a = {};
-        var keya = 'ATM2';
-        a[keya] = [];
-        a[keya].push(item.location.placeName);
-        a[keya].push(item.location.coordinates);
-        o[key].push(a[keya]);  
-      });
-      callback(null, o);}
-    else {
+      loadPath[0].foundATMLocations.forEach(function(item) {
+        o[key].push({'ATM': {'Nombre': item.location.placeName,
+          'Latitude': item.location.coordinates.latitude,
+          'Longitude': item.location.coordinates.longitude}}); 
+});
+      callback(null, o); }    else {
       console.log(error);
       callback(error);
     }
@@ -105,7 +101,7 @@ VisaAPIClient.prototype.doXPayRequest = function(baseUri, resourcePath, queryPar
     body: requestBody,
   }, function(error, response, body) {
     if (!error) {
-      logResponseBody(response, body);
+    //  logResponseBody(response, body);
       console.log(response.statusCode);
       callback(null, response.statusCode);
     } else {

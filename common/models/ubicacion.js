@@ -22,8 +22,9 @@ module.exports = function(Ubicacion) {
         console.log(err);
         return;
       }
-      console.log(data);
-      cb(data);
+     // console.log(JSON.stringify(info.location));
+     // cb(JSON.stringify(info.location));
+      cb(null, data.location);
     });
   };
 
