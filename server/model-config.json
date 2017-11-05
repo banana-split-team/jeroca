@@ -38,5 +38,9 @@
   "cajero": {
     "dataSource": "db",
     "public": true
+  },
+  "ubicacion": {
+    "dataSource": null,
+    "public": true
   }
 }
