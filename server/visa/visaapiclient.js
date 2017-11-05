@@ -64,7 +64,7 @@ VisaAPIClient.prototype.doMutualAuthRequest = function(path, requestBody, method
     timeout: 30000,
   }, function(error, response, body) {
     if (!error) {
-      logResponseBody(response, body);
+    //  logResponseBody(response, body);
       var loadPath = JSON.parse(response.body).responseData;
 // Formateo para devolver el JSON que necesito.
       var o = {};
@@ -101,7 +101,7 @@ VisaAPIClient.prototype.doXPayRequest = function(baseUri, resourcePath, queryPar
     body: requestBody,
   }, function(error, response, body) {
     if (!error) {
-      logResponseBody(response, body);
+    //  logResponseBody(response, body);
       console.log(response.statusCode);
       callback(null, response.statusCode);
     } else {

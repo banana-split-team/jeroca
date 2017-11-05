@@ -34,12 +34,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <google-map latitude="40.4164794" longitude="-3.7050995" api-key="AIzaSyA27HjYihRX4mTIaYmO2JF98amfNMIk8L0">
+    <google-map latitude={{PLaM}} longitude={{PLoM}} api-key="AIzaSyA27HjYihRX4mTIaYmO2JF98amfNMIk8L0" zoom="14">
         <template is="dom-repeat" items="{{cajeros.listado.ATM}}" as="marker">
-          <google-map-marker latitude={{marker.ATM.Latitude}} longitude={{marker.ATM.Longitude}} icon={{icon}}>
+          <google-map-marker latitude={{marker.ATM.Latitude}} longitude={{marker.ATM.Longitude}} title={{marker.ATM.Nombre}}  icon={{icon}} animation='BOUNCE'>
         </template>
 
-        <google-map-marker latitude="40.4164794" longitude="-3.7050995" icon={{iconP}}>     
+        <google-map-marker latitude={{LaM}} longitude={{LoM}} label="Yo">     
     </google-map>
 
 
@@ -63,8 +63,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String,
             value: "KEY"
           },
-
-
+          LaM: Number,
+          LoM: Number,
+          PLaM: Number,
+          PLoM: Number,
           icon: {
             type: String,
             value: "../images/atm.png"
@@ -78,11 +80,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       ready() {
         super.ready();
-        //var thisAjax = this.$.Ajax;
-        this.$.Ajax.params = { lat: 40.4164794, long: -3.7050995 };
-       // console.log(JSON.stringify (this.thisAjax));
-        this.$.Ajax.generateRequest();
-
+        //busco ubicacion
+        this.$.AjaxL.generateRequest();
       }
 
       handleResponse(res) {
@@ -91,8 +90,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log(this.cajeros);
         console.log(JSON.stringify (this.cajeros));
       }
+
       handleResponseL(res) {
-        this.localizacion = res.detail.__data.response;
+        this.loc = res.detail.__data.response;
+        
+       
+//hacemos que sea españa...
+        this.LaM = this.loc.localizacion.lat + 74.8;
+        this.LoM = this.loc.localizacion.lng + 54.7;
+        this.PLaM = this.LaM;
+        this.PLoM = this.LoM;
+        console.log(this.loc.localizacion.lat + ' <> ' + this.loc.localizacion.lng);
+        console.log(this.LaM + ' -- ' + this.LoM);
+        
+        this.$.Ajax.params = {
+                lat : this.LaM,
+                long : this.LoM
+              };
+        console.log(this.$.Ajax.params);
+              //this.$.Ajax.params = { lat: 40.4164794, long: -3.7050995 };
+         //busco cajeros cerca ubicacion
+        this.$.Ajax.generateRequest();
       }
 
 
