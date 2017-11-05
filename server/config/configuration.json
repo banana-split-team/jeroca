@@ -1,0 +1,8 @@
+
+{
+  "userId": "76HUG9CICP2ODD929BT121nMIBdG1cLKY5QxVzIPL-kNmZLYc",
+  "password": "WRRHrmkA",
+  "cert": "cert.pem",
+  "key": "key.pem",
+  "visaUrl": "https://sandbox.api.visa.com/"
+}
