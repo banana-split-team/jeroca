@@ -34,14 +34,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <template is="dom-repeat" items="{{cajeros.listado.ATM}}" as="marker">
-      <div class="card">
-        </p> {{marker.ATM.Nombre}} + {{marker.ATM.Latitude}} + {{marker.ATM.Longitude}}
-     
-        
-      </div>
-    </template>
-
     <google-map latitude="40.4164794" longitude="-3.7050995" api-key="AIzaSyA27HjYihRX4mTIaYmO2JF98amfNMIk8L0">
         <template is="dom-repeat" items="{{cajeros.listado.ATM}}" as="marker">
           <google-map-marker latitude={{marker.ATM.Latitude}} longitude={{marker.ATM.Longitude}} icon={{icon}}>
